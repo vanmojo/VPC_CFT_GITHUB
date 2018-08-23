@@ -2,10 +2,44 @@ Resources:
   myVPC:
     Type: AWS::EC2::VPC
     Properties:
-      CidrBlock: !Ref VpcCIDR
+      CidrBlock: "10.1.0.0/16"
       EnableDnsSupport: "false"
       EnableDnsHostnames: "false"
       InstanceTenancy: "default"
       Tags:
         - Key: Name
-          Value: !Ref EnvironmentName
+          Value: vanmojoVCPcft
+  myInternetGateway:
+    Type: 'AWS::EC2::InternetGateway'
+    Properties:
+      Tags:
+        - Key: Name
+          Value: vanmojoIGWcft
+  VPCGatewayAttachment:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      VpcId: !Ref myVPC
+      InternetGatewayId: !Ref myInternetGateway
+  SubnetAPublic:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      AvailabilityZone: "eu-west-1a"
+      CidrBlock: "10.1.10.0/24"
+      MapPublicIpOnLaunch: true
+      VpcId: !Ref myVPC
+      Tags:
+        - Key: Name
+          Value: vanmojoEW1acft
+        - Key: Reach
+          Value: public
+  SubnetAPrivate:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      AvailabilityZone: "eu-west-1a"
+      CidrBlock: "10.1.20.0/24"
+      VpcId: !Ref myVPC
+      Tags:
+      - Key: Name
+        Value: vanmojoEW1acft
+      - Key: Reach
+        Value: private

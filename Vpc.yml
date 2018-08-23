@@ -1,0 +1,11 @@
+Resources:
+  myVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCIDR
+      EnableDnsSupport: "false"
+      EnableDnsHostnames: "false"
+      InstanceTenancy: "default"
+      Tags:
+        - Key: Name
+          Value: !Ref EnvironmentName
